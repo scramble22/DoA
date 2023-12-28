@@ -10,6 +10,11 @@ body {
     min-height: 100vh; /* Минимальная высота страницы */
 }
 
+a {
+    text-decoration: none;
+    color: white;
+}
+
 header, footer {
     background-color: #333;
     color: #fff;

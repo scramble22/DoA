@@ -57,26 +57,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
     function performSearch() {
         const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
         resultsContainer.innerHTML = '';
 
-        const filteredAbbreviations = sortedAbbreviations.filter(item => {
-            const term = item.term.toLowerCase();
-            const definition = item.definition.toLowerCase();
-            const rus = item.rus.toLowerCase();
+        if (searchQuery === '') {
+            // Восстанавливаем исходный вид, если поисковый запрос пуст
+            for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
+                const letterItem = document.createElement('li');
+                letterItem.textContent = letter;
+                letterItem.classList.add('header');
+                resultsContainer.appendChild(letterItem);
 
-            // Ограничиваем поиск только английскими словами
-            return term.includes(searchQuery) || definition.includes(searchQuery);
-        });
+                abbrevs.forEach(item => {
+                    const listItem = document.createElement('li');
+                    const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
+                    listItem.textContent = `${item.term}: ${definition}`;
+                    listItem.classList.add('abbreviation');
+                    resultsContainer.appendChild(listItem);
+                });
+            }
+        } else {
+            // В противном случае выполняем поиск и отображаем результаты
+            const filteredAbbreviations = sortedAbbreviations.filter(item => {
+                const term = item.term.toLowerCase();
+                const definition = item.definition.toLowerCase();
+                const rus = item.rus.toLowerCase();
 
-        for (const item of filteredAbbreviations) {
-            const listItem = document.createElement('li');
-            const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
-            listItem.textContent = `${item.term}: ${definition}`;
-            listItem.classList.add('abbreviation');
-            resultsContainer.appendChild(listItem);
+                // Ограничиваем поиск только английскими словами
+                return term.includes(searchQuery) || definition.includes(searchQuery);
+            });
+
+            for (const item of filteredAbbreviations) {
+                const listItem = document.createElement('li');
+                const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
+                listItem.textContent = `${item.term}: ${definition}`;
+                listItem.classList.add('abbreviation');
+                resultsContainer.appendChild(listItem);
+            }
         }
     }
 
