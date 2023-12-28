@@ -1,0 +1,99 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Broken+Fax&family=Rubik+Doodle+Shadow&family=Rubik+Maps&family=Rubik+Scribble&display=swap');
+
+body {
+    font-family: 'Rubik Maps', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Минимальная высота страницы */
+}
+
+header, footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+header {
+    font-family: 'Rubik Scribble', sans-serif;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+    cursor: pointer;
+    color: #007bff;
+}
+
+li.header {
+    font-family: 'Rubik Doodle Shadow';
+    font-size: 20px;
+}
+
+
+li.abbreviation {
+    font-family: 'Rubik Maps', sans-serif;
+    margin-left: 10px;
+}
+
+footer {
+    margin-top: auto; /* Футер будет прижат к нижней части контейнера */
+    text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+    header {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    ul {
+        padding-left: 20px;
+    }
+
+    li.header {
+        font-size: 18px;
+    }
+
+    li.abbreviation {
+        font-size: 16px;
+        margin-left: 0;
+    }
+
+    footer {
+        padding: 5px 0;
+    }
+}
