@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Dictionary of Abbreviations</title>
+    <title>Choose Language</title>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <h1>Dictionary of Abbreviations</h1>
-            <input type="text" id="searchInput" placeholder="Search...">
-        </div>
-    </header>
+    <div id="languagePrompt" class="language-prompt">
+        <p>Add Russian meanings and translate the site?</p>
+        <button onclick="setLanguage(true)">Yes</button>
+        <button onclick="setLanguage(false)">No</button>
+    </div>
 
-    <main class="main">
-      <div class="container">
-          <ul id="results"></ul>
-      </div>
-    </main>
+    <script>
+        function setLanguage(isRussian) {
+            localStorage.setItem('languageChosen', true);
+            localStorage.setItem('isRussian', isRussian);
+            window.location.href = 'main.html';
+        }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const languageChosen = localStorage.getItem('languageChosen');
 
-    <footer class="footer">
-        <div class="container_footer">
-            <p>&copy; 2023 Dictionary of Abbreviations</p>
-        </div>
-    </footer>
-
-    <script src="main.js"></script>
+        if (languageChosen) {
+            const isRussian = localStorage.getItem('isRussian') === 'true';
+            const destinationPage = isRussian ? 'main_ru.html' : 'main.html';
+            window.location.href = destinationPage;
+        }
+    });
+</script>
 </body>
 </html>
