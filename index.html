@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_prompt.css">
     <title>Choose Language</title>
 </head>
 <body>
@@ -14,22 +14,21 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageChosen = localStorage.getItem('languageChosen');
+
+            if (languageChosen) {
+                const isRussian = localStorage.getItem('isRussian') === 'true';
+                const destinationPage = isRussian ? 'main_ru.html' : 'main.html';
+                window.location.href = destinationPage;
+            }
+        });
+        
         function setLanguage(isRussian) {
             localStorage.setItem('languageChosen', true);
             localStorage.setItem('isRussian', isRussian);
             window.location.href = 'main.html';
         }
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const languageChosen = localStorage.getItem('languageChosen');
-
-        if (languageChosen) {
-            const isRussian = localStorage.getItem('isRussian') === 'true';
-            const destinationPage = isRussian ? 'main_ru.html' : 'main.html';
-            window.location.href = destinationPage;
-        }
-    });
 </script>
 </body>
 </html>

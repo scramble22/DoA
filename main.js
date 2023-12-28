@@ -24,79 +24,56 @@ document.addEventListener('DOMContentLoaded', function() {
         // Добавь больше сокращений, если нужно
     ];
 
-    const languageChosen = localStorage.getItem('languageChosen');
+    const isRussian = localStorage.getItem('isRussian') === 'true';
+    const sortedAbbreviations = abbreviations.sort((a, b) => a.term.localeCompare(b.term));
 
-    if (!languageChosen) {
-        const languagePrompt = document.getElementById('languagePrompt');
-        languagePrompt.style.display = 'block';
-    } else {
-        initializeApp();
+    const groupedAbbreviations = groupAbbreviations(sortedAbbreviations);
+
+    const resultsContainer = document.getElementById('results');
+
+    for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
+        const letterItem = document.createElement('li');
+        letterItem.textContent = letter;
+        letterItem.classList.add('header');
+        resultsContainer.appendChild(letterItem);
+
+        abbrevs.forEach(item => {
+            const listItem = document.createElement('li');
+            const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
+            listItem.textContent = `${item.term}: ${definition}`;
+            listItem.classList.add('abbreviation');
+            resultsContainer.appendChild(listItem);
+        });
     }
 
-    function setLanguage(isRussian) {
-        localStorage.setItem('languageChosen', true);
-        localStorage.setItem('isRussian', isRussian);
-        const languagePrompt = document.getElementById('languagePrompt');
-        languagePrompt.style.display = 'none';
-        initializeApp();
-    }
+    document.getElementById('searchInput').addEventListener('input', function() {
+        performSearch();
+    });
 
-    function initializeApp() {
-        const isRussian = localStorage.getItem('isRussian') === 'true';
-        const abbreviationsData = getAbbreviations(isRussian);
-        const sortedAbbreviations = abbreviationsData.sort((a, b) => a.term.localeCompare(b.term));
-        const groupedAbbreviations = groupAbbreviations(sortedAbbreviations);
-
-        const resultsContainer = document.getElementById('results');
-
-        for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
-            const letterItem = document.createElement('li');
-            letterItem.textContent = letter;
-            letterItem.classList.add('header');
-            resultsContainer.appendChild(letterItem);
-
-            abbrevs.forEach(item => {
-                const listItem = document.createElement('li');
-                const definition = isRussian ? item.rus : item.definition;
-                listItem.textContent = `${item.term}: ${definition}`;
-                listItem.classList.add('abbreviation');
-                resultsContainer.appendChild(listItem);
-            });
-        }
-
-        document.getElementById('searchInput').addEventListener('input', function() {
+    document.getElementById('searchInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
             performSearch();
-        });
-
-        document.getElementById('searchInput').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                performSearch();
-            }
-        });
-
-        function performSearch() {
-            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            resultsContainer.innerHTML = '';
-
-            const filteredAbbreviations = sortedAbbreviations.filter(item => {
-                const term = isRussian ? item.rus.toLowerCase() : item.term.toLowerCase();
-                const definition = isRussian ? item.rus.toLowerCase() : item.definition.toLowerCase();
-                return term.includes(searchQuery) || definition.includes(searchQuery);
-            });
-
-            for (const item of filteredAbbreviations) {
-                const listItem = document.createElement('li');
-                const definition = isRussian ? item.rus : item.definition;
-                listItem.textContent = `${item.term}: ${definition}`;
-                listItem.classList.add('abbreviation');
-                resultsContainer.appendChild(listItem);
-            }
         }
-    }
+    });
 
-    function getAbbreviations(isRussian) {
-        return abbreviations.map(item => ({ ...item, definition: isRussian ? item.rus : item.definition }));
+    function performSearch() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        resultsContainer.innerHTML = '';
+
+        const filteredAbbreviations = sortedAbbreviations.filter(item => {
+            const term = isRussian ? item.rus.toLowerCase() : item.term.toLowerCase();
+            const definition = isRussian ? item.rus.toLowerCase() : item.definition.toLowerCase();
+            return term.includes(searchQuery) || definition.includes(searchQuery);
+        });
+
+        for (const item of filteredAbbreviations) {
+            const listItem = document.createElement('li');
+            const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
+            listItem.textContent = `${item.term}: ${definition}`;
+            listItem.classList.add('abbreviation');
+            resultsContainer.appendChild(listItem);
+        }
     }
 
     function groupAbbreviations(abbreviations) {
