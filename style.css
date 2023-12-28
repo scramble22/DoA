@@ -62,8 +62,16 @@ li.abbreviation {
 }
 
 footer {
-    margin-top: auto; /* Футер будет прижат к нижней части контейнера */
+    margin-top: auto;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.soc-img {
+    width: 41px;
+    height: 41px;
 }
 
 @media screen and (max-width: 767px) {

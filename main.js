@@ -57,13 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
     function performSearch() {
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
         resultsContainer.innerHTML = '';
 
         const filteredAbbreviations = sortedAbbreviations.filter(item => {
-            const term = isRussian ? item.rus.toLowerCase() : item.term.toLowerCase();
-            const definition = isRussian ? item.rus.toLowerCase() : item.definition.toLowerCase();
+            const term = item.term.toLowerCase();
+            const definition = item.definition.toLowerCase();
+            const rus = item.rus.toLowerCase();
+
+            // Ограничиваем поиск только английскими словами
             return term.includes(searchQuery) || definition.includes(searchQuery);
         });
 
