@@ -98,12 +98,20 @@ li {
 li.headerr {
     font-family: 'Rubik Doodle Shadow';
     font-size: 20px;
+    transition: transform 0.3s ease;
+}
+li.headerr:hover {
+    transform: scale(1.01);
 }
 
 
 li.abbreviation {
     font-family: 'Rubik Maps', sans-serif;
     margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+li.abbreviation:hover {
+    transform: translate(20px, 0);
 }
 
 footer {
@@ -157,5 +165,11 @@ footer {
 
     footer {
         padding: 5px 0;
+    }
+    
+    .error-container {
+        text-align: center;
+        position: absolute;
+        top: 200px;
     }
 }
