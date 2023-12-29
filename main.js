@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = destinationPage;
                 } else {
                     // Если файла нет, перенаправляем на страницу ошибки 404
-                    window.location.href = 'error404.html';
+                    window.location.href = '404.html';
                 }
             })
             .catch(error => {
