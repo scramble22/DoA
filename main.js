@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
             listItem.textContent = `${item.term}: ${definition}`;
             listItem.classList.add('abbreviation');
+
+            // Добавим обработчик события клика на каждую строку
+            listItem.addEventListener('click', function() {
+                redirectToTermPage(item.term);
+            });
+
             resultsContainer.appendChild(listItem);
         });
     }
@@ -74,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
                     listItem.textContent = `${item.term}: ${definition}`;
                     listItem.classList.add('abbreviation');
+
+                    listItem.addEventListener('click', function() {
+                        redirectToTermPage(item.term);
+                    });
+
                     resultsContainer.appendChild(listItem);
                 });
             }
@@ -93,6 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
                 listItem.textContent = `${item.term}: ${definition}`;
                 listItem.classList.add('abbreviation');
+
+                listItem.addEventListener('click', function() {
+                    redirectToTermPage(item.term);
+                });
+
                 resultsContainer.appendChild(listItem);
             }
         }
@@ -110,5 +126,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         return groupedAbbreviations;
+    }
+
+    // Функция для перенаправления на страницу с названием
+    function redirectToTermPage(term) {
+        const destinationPage = term.toLowerCase() + '.html';
+
+        // Проверяем существование файла перед перенаправлением
+        checkFileExists(destinationPage)
+            .then(fileExists => {
+                if (fileExists) {
+                    window.location.href = destinationPage;
+                } else {
+                    // Если файла нет, перенаправляем на страницу ошибки 404
+                    window.location.href = 'error404.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking file existence:', error);
+            });
+    }
+
+    // Функция для проверки существования файла
+    function checkFileExists(file) {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('HEAD', file, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    resolve(xhr.status === 200);
+                }
+            };
+
+            xhr.onerror = function() {
+                reject(new Error('Network error while checking file existence'));
+            };
+
+            xhr.send();
+        });
     }
 });
