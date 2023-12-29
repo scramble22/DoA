@@ -18,17 +18,21 @@
             const languageChosen = localStorage.getItem('languageChosen');
 
             if (languageChosen) {
-                const isRussian = localStorage.getItem('isRussian') === 'true';
-                const destinationPage = isRussian ? 'main_ru.html' : 'main.html';
-                window.location.href = destinationPage;
+                redirectToMain();
             }
         });
-        
+
         function setLanguage(isRussian) {
             localStorage.setItem('languageChosen', true);
             localStorage.setItem('isRussian', isRussian);
-            window.location.href = 'main.html';
+            redirectToMain();
         }
-</script>
+
+        function redirectToMain() {
+            const isRussian = localStorage.getItem('isRussian') === 'true';
+            const destinationPage = isRussian ? 'main_ru.html' : 'main.html';
+            window.location.href = destinationPage;
+        }
+    </script>
 </body>
 </html>

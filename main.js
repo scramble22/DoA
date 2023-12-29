@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
         const letterItem = document.createElement('li');
         letterItem.textContent = letter;
-        letterItem.classList.add('header');
+        letterItem.classList.add('headerr');
         resultsContainer.appendChild(letterItem);
 
         abbrevs.forEach(item => {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
                 const letterItem = document.createElement('li');
                 letterItem.textContent = letter;
-                letterItem.classList.add('header');
+                letterItem.classList.add('headerr');
                 resultsContainer.appendChild(letterItem);
 
                 abbrevs.forEach(item => {

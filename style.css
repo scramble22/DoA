@@ -1,8 +1,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Broken+Fax&family=Rubik+Doodle+Shadow&family=Rubik+Maps&family=Rubik+Scribble&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Iso&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
 
 body {
-    font-family: 'Rubik Maps', sans-serif;
+    font-family: 'Rubik', monotype;
     margin: 0;
     padding: 0;
     display: flex;
@@ -21,10 +24,11 @@ header, footer {
     padding: 10px 0;
 }
 
-header {
+.header {
     font-family: 'Rubik Scribble', sans-serif;
     padding-bottom: 20px;
     padding-top: 20px;
+    border-bottom: 1px solid #000;
 }
 
 .container {
@@ -33,6 +37,21 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header2 {
+    height: 20px;
+    background-color: #424343;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.header2-container {
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
 }
 
 h1 {
@@ -55,7 +74,7 @@ li {
     color: #007bff;
 }
 
-li.header {
+li.headerr {
     font-family: 'Rubik Doodle Shadow';
     font-size: 20px;
 }
@@ -72,6 +91,10 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+.footer-p {
+    font-family: 'Rubik Iso', monotype;
 }
 
 .soc-img {
