@@ -30,3 +30,4 @@ If you find this project helpful, consider supporting it. Visit the [Support](su
 Thank you for using the **Dictionary of Abbreviations**!
 
 ## https://wdoa.pages.dev/
+## https://scramble22.github.io/DoA
