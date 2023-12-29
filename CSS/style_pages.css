@@ -1,0 +1,32 @@
+/* Стили специфичные для страницы BSOD */
+.content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.usage-example {
+    margin-top: 20px;
+}
+
+.usage-example h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.usage-example strong {
+    color: #007bff; /* Цвет выделенного текста */
+}
+
+.image-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

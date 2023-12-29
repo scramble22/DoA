@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { term: 'BBS', definition: 'be back soon', rus: 'Cкоро буду, скоро вернусь' },
         { term: 'Bgg', definition: 'Bu-ga-ga', rus: 'сокращение от Бу-га-га, что значит сильный смех' },
         { term: 'BRB', definition: 'be right back', rus: 'скоро вернусь (вернусь через минуту)' },
-        { term: 'BSoD', definition: 'Blue Screen of Death', rus: 'синий экран смерти. Экран с сообщением о невосстановимой ошибке ядра, после которой можно только перезагрузить компьютер кнопкой «Reset». В операционных системах семейства Windows он синего цвета.' }
+        { term: 'BSoD', definition: 'Blue Screen of Death', rus: 'синий экран смерти.' }
         // Добавь больше сокращений, если нужно
     ];
 
@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const isRussian = localStorage.getItem('isRussian') === 'true';
     const sortedAbbreviations = abbreviations.sort((a, b) => a.term.localeCompare(b.term));
-
     const groupedAbbreviations = groupAbbreviations(sortedAbbreviations);
-
     const resultsContainer = document.getElementById('results');
 
     for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
@@ -55,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             listItem.textContent = `${item.term}: ${definition}`;
             listItem.classList.add('abbreviation');
 
-            // Добавим обработчик события клика на каждую строку
             listItem.addEventListener('click', function() {
                 redirectToTermPage(item.term);
             });
@@ -64,42 +61,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Проверяем наличие параметра "q" в URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+
+    if (searchQuery) {
+        // Если параметр "q" присутствует, выполняем поиск
+        document.getElementById('searchInput').value = searchQuery;
+        performSearch(isRussian);
+    }
+
     document.getElementById('searchInput').addEventListener('input', function() {
-        performSearch();
+        performSearch(isRussian);
     });
 
     document.getElementById('searchInput').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            performSearch();
+            performSearch(isRussian);
         }
     });
 
-    function performSearch() {
+    function performSearch(isRussian) {
         const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
         resultsContainer.innerHTML = '';
 
         if (searchQuery === '') {
             // Восстанавливаем исходный вид, если поисковый запрос пуст
-            for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
-                const letterItem = document.createElement('li');
-                letterItem.textContent = letter;
-                letterItem.classList.add('headerr');
-                resultsContainer.appendChild(letterItem);
-
-                abbrevs.forEach(item => {
-                    const listItem = document.createElement('li');
-                    const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
-                    listItem.textContent = `${item.term}: ${definition}`;
-                    listItem.classList.add('abbreviation');
-
-                    listItem.addEventListener('click', function() {
-                        redirectToTermPage(item.term);
-                    });
-
-                    resultsContainer.appendChild(listItem);
-                });
-            }
+            displayAbbreviations(groupedAbbreviations, isRussian);
         } else {
             // В противном случае выполняем поиск и отображаем результаты
             const filteredAbbreviations = sortedAbbreviations.filter(item => {
@@ -108,10 +97,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 const rus = item.rus.toLowerCase();
 
                 // Ограничиваем поиск только английскими словами
-                return term.includes(searchQuery) || definition.includes(searchQuery);
+                return term.includes(searchQuery) || definition.includes(searchQuery) || rus.includes(searchQuery);
             });
 
-            for (const item of filteredAbbreviations) {
+            displayAbbreviations(groupAbbreviations(filteredAbbreviations), isRussian);
+        }
+    }
+
+    // Функция для отображения сокращений в результатах поиска
+    function displayAbbreviations(groupedAbbreviations, isRussian) {
+        for (const [letter, abbrevs] of Object.entries(groupedAbbreviations)) {
+            const letterItem = document.createElement('li');
+            letterItem.textContent = letter;
+            letterItem.classList.add('headerr');
+            resultsContainer.appendChild(letterItem);
+
+            abbrevs.forEach(item => {
                 const listItem = document.createElement('li');
                 const definition = isRussian ? `${item.definition} (${item.rus})` : item.definition;
                 listItem.textContent = `${item.term}: ${definition}`;
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 resultsContainer.appendChild(listItem);
-            }
+            });
         }
     }
 
@@ -142,7 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для перенаправления на страницу с названием
     function redirectToTermPage(term) {
-        const destinationPage = 'Pages/' + term.toLowerCase() + '.html';
+        // Добавляем '_ru' к имени файла, если выбран русский язык
+        const languageSuffix = isRussian ? '_ru' : '';
+        const destinationPage = 'Pages/' + term.toLowerCase() + languageSuffix + '.html';
 
         // Проверяем существование файла перед перенаправлением
         checkFileExists(destinationPage)
