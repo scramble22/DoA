@@ -45,3 +45,11 @@ button:hover {
     bottom: 0px;
     right: 0px;
 }
+
+@media screen and (max-width: 767px) {
+    .error-container {
+        position: absolute;
+        top: 200px;
+    }
+
+}
